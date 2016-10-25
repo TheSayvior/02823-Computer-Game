@@ -5,7 +5,7 @@ using System;
 public class RopeController : MonoBehaviour {
 
     public GameObject Player;
-    public PlayerShootingScript Gun;
+    public PlayerShootingController ShootingController;
 
     HingeJoint2D _rope;
 
@@ -32,16 +32,16 @@ public class RopeController : MonoBehaviour {
         {
             _rope.enabled = false;
         }
-        else if (_rope.isActiveAndEnabled == false)
+        else if (_rope.isActiveAndEnabled == false && ShootingController.publicShoot())
         {
-            moveAnchor(Gun.publicShoot());
+            moveAnchor();
+            this.gameObject.transform.parent = ShootingController.hitGameObject.transform;
             _rope.enabled = true;
-            //moveAnchor();
         }
     }
 
-    private void moveAnchor( Vector2 position)
+    private void moveAnchor()
     {
-        _rope.gameObject.transform.position = position;
+        _rope.gameObject.transform.position = ShootingController.ropeHitPosition;
     }
 }
