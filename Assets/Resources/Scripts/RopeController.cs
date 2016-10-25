@@ -34,7 +34,7 @@ public class RopeController : MonoBehaviour {
         else if (_rope.isActiveAndEnabled == false)
         {
             _rope.enabled = true;
-            moveAnchor();
+            //moveAnchor();
         }
     }
 
