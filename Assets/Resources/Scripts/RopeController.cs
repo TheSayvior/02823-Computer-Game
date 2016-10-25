@@ -4,11 +4,14 @@ using System;
 
 public class RopeController : MonoBehaviour {
 
+    public GameObject Player;
+    public PlayerShootingScript Gun;
+
     HingeJoint2D _rope;
+
 	// Use this for initialization
 	void Start () {
         _rope = this.gameObject.GetComponent<HingeJoint2D>();
-
     }
 	
 	// Update is called once per frame
@@ -25,6 +28,20 @@ public class RopeController : MonoBehaviour {
 
     private void FindRopeConnection()
     {
-        throw new NotImplementedException();
+        if (_rope.isActiveAndEnabled == true)
+        {
+            _rope.enabled = false;
+        }
+        else if (_rope.isActiveAndEnabled == false)
+        {
+            moveAnchor(Gun.publicShoot());
+            _rope.enabled = true;
+            //moveAnchor();
+        }
+    }
+
+    private void moveAnchor( Vector2 position)
+    {
+        _rope.gameObject.transform.position = position;
     }
 }
