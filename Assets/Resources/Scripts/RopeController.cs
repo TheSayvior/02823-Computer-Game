@@ -5,6 +5,7 @@ using System;
 public class RopeController : MonoBehaviour {
 
     public GameObject Player;
+    public PlayerShootingScript Gun;
 
     HingeJoint2D _rope;
 
@@ -33,13 +34,14 @@ public class RopeController : MonoBehaviour {
         }
         else if (_rope.isActiveAndEnabled == false)
         {
+            moveAnchor(Gun.publicShoot());
             _rope.enabled = true;
             //moveAnchor();
         }
     }
 
-    private void moveAnchor()
+    private void moveAnchor( Vector2 position)
     {
-        throw new NotImplementedException();
+        _rope.gameObject.transform.position = position;
     }
 }
