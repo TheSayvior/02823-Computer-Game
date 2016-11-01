@@ -4,6 +4,8 @@ using System.Collections;
 public class BlockManager : MonoBehaviour {
 
     public GameObject StandartCube;
+    public GameObject SpaceChecker;
+    public GameObject Pool;
 
     public GameObject[] BlockPool;
     public GameObject[] BlockPositions;
@@ -12,42 +14,48 @@ public class BlockManager : MonoBehaviour {
     public float CubeMoveTime = 1.5f;
     public float ChooseCubeToMoveTime = 1.5f;
 
-    static public int Width = 10;
-    static public int Height = 10;
+    static public int Width = 2;
+    static public int Height = 2;
+
+    Vector2 placement;
+    int attempts = 0;
     
     // Use this for initialization
 
 	void Start () {
+
+        BlockPool = new GameObject[Pool.transform.childCount];
+
+        for (int i = 0; i < Pool.transform.childCount; i++)
+        {
+            BlockPool[i] = Pool.transform.GetChild(i).gameObject;
+        }
 
         StartCoroutine(SpawnCube());
 
 
     }
 
-    private void CreateCube()
+    public void PositionCube()
     {
-        int x = Random.Range(3, Width);
-        int y = Random.Range(3, Height);
+        int x = Random.Range(0, Width);
+        int y = Random.Range(0, Height);
 
-        Vector3 fwd = Camera.main.transform.position - new Vector3(x, y, 0);
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, fwd, out hit))
+        placement = new Vector2(Camera.main.transform.position.x - Width / 2 + x, Camera.main.transform.position.y - Height / 2 + y);
+
+        SpaceChecker.transform.position = placement;
+        SpaceChecker.SetActive(true);
+
+    }
+
+    public void PlaceBlock()
+    {
+        for (int i = 0; i < BlockPool.Length; i++)
         {
-            if(hit.transform.gameObject.tag == "Block")
+            if (BlockPool[i].activeSelf == false)
             {
-                CreateCube();
-                return;
-            }
-
-            // Do something with the object that was hit by the raycast.
-        }
-
-        for (int i = 0; i<BlockPool.Length; i++)
-        {
-            if(BlockPool[i].activeSelf == false)
-            {
-                
-                BlockPool[i].transform.position = new Vector2(Camera.main.transform.position.x + x, Camera.main.transform.position.y + y);
+                attempts = 0;
+                BlockPool[i].transform.position = placement;
                 BlockPool[i].SetActive(true);
                 return;
             }
@@ -58,8 +66,13 @@ public class BlockManager : MonoBehaviour {
 
     IEnumerator SpawnCube()
     {
-        CreateCube();
+        PositionCube();
         yield return new WaitForSeconds(CubeSpawnTime);
+
+        while(SpaceChecker.activeSelf == true)
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
 
         StartCoroutine(SpawnCube());
         yield return null;

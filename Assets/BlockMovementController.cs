@@ -4,7 +4,7 @@ using System.Collections;
 public class BlockMovementController : MonoBehaviour {
 
     BlockManager BlockManagment;
-
+    
     float moveTime;
     float moveBlockTimer;
 
@@ -25,11 +25,6 @@ public class BlockMovementController : MonoBehaviour {
         BlockManagment = FindObjectOfType<BlockManager>();
         moveTime = BlockManagment.CubeMoveTime;
         moveBlockTimer = BlockManagment.ChooseCubeToMoveTime;
-    }
-
-    void FixedUpdate()
-    {
-
     }
 
     public void UpdateMoveable()
