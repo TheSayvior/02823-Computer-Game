@@ -3,6 +3,11 @@ using System.Collections;
 
 public class PlayerMovementController : MonoBehaviour {
 
+    public int speed;
+    public int jumpPower;
+    public int maxSpeed;
+    public int numJumps;
+    public int hasJumped;
     bool Swinging;
 
     Rigidbody2D _playerRB2D;
@@ -11,11 +16,12 @@ public class PlayerMovementController : MonoBehaviour {
 	void Start () {
         _playerRB2D = this.gameObject.GetComponent<Rigidbody2D>();
         Swinging = false;
+        hasJumped = 0;
     }
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    // Check childcapsule collider. If trigger, then reset hasJumped to 0
 	}
 
     void FixedUpdate()
@@ -27,20 +33,25 @@ public class PlayerMovementController : MonoBehaviour {
 
         if (Input.GetKey("a"))
         {
-            if (_playerRB2D.velocity.x > -5)
-                _playerRB2D.velocity = _playerRB2D.velocity + new Vector2(-1, 0);
+            if (_playerRB2D.velocity.x > -maxSpeed)
+                _playerRB2D.velocity = _playerRB2D.velocity + new Vector2(-speed, 0);
         }
 
         if (Input.GetKey("d"))
         {
-            if (_playerRB2D.velocity.x < 5)
-                _playerRB2D.velocity = _playerRB2D.velocity + new Vector2(1, 0);
+            if (_playerRB2D.velocity.x < maxSpeed)
+                _playerRB2D.velocity = _playerRB2D.velocity + new Vector2(speed, 0);
         }
 
+        // Maybe add force, or figure out a way to get it more jumpy
         if (Input.GetKey("w"))
         {
-            if (_playerRB2D.velocity.y < 5)
-                _playerRB2D.velocity = _playerRB2D.velocity + new Vector2(0, 1);
+            // Do we want to limit y velocity? if they're moving up too fast they can't jump?
+            if (_playerRB2D.velocity.y < 5 && hasJumped != numJumps)
+            {
+                _playerRB2D.velocity = _playerRB2D.velocity + new Vector2(0, jumpPower);
+                hasJumped += 1;
+            }
         }
     }
 }
