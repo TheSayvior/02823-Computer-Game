@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Test scenes/Rasmus Test scene.unity
+- path: Assets/Resources/Demo Scenes/peterdemoscene.unity
   isLoaded: 1
   isActive: 1
