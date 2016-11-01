@@ -54,4 +54,11 @@ public class PlayerMovementController : MonoBehaviour {
             }
         }
     }
+
+	void OnTriggerEnter2D(Collider2D touched){
+		print (touched.tag);
+		if (touched.tag == "Block") {
+			hasJumped = 0;
+		}
+	}
 }
