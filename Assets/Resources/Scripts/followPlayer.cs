@@ -3,14 +3,15 @@ using System.Collections;
 
 public class followPlayer : MonoBehaviour {
 
-	private GameObject player;
+	public float cameraOffsetHeight;
 
+	private GameObject player;
 	Vector3 offset;
 
 	// Use this for initialization
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player");
-		offset = transform.position - player.transform.position;
+		offset = new Vector3(0f, cameraOffsetHeight, -10f);
 	}
 	
 	// Update is called once per frame

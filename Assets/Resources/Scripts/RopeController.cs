@@ -4,13 +4,15 @@ using System;
 
 public class RopeController : MonoBehaviour {
 
-    public GameObject Player;
-    public PlayerShootingController ShootingController;
+    private GameObject Player;
+    private PlayerShootingController ShootingController;
 
     HingeJoint2D _rope;
 
 	// Use this for initialization
 	void Start () {
+		Player = GameObject.FindGameObjectWithTag ("Player");
+		ShootingController = Player.gameObject.GetComponentInChildren<PlayerShootingController> (); //GameObject.FindObjectOfType<PlayerShootingController> ();
         _rope = this.gameObject.GetComponent<HingeJoint2D>();
     }
 	
