@@ -12,6 +12,7 @@ public class PlayerShootingController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		rayCastLength = 5;
         firePoint = transform.FindChild("FirePoint");
         if (firePoint == null)
         {
@@ -30,7 +31,7 @@ public class PlayerShootingController : MonoBehaviour {
         RaycastHit2D hit = Physics2D.Raycast(firePointPosition, mousePosition - firePointPosition, rayCastLength);
         Debug.DrawLine(firePointPosition, (mousePosition-firePointPosition)*100, Color.cyan);
 
-        if (hit.collider != null && hit.collider.gameObject.tag == "ropeable")
+		if (hit.collider != null && (hit.collider.gameObject.tag == "ropeable" || hit.collider.gameObject.tag == "Block"))
         {
             Debug.Log(hit.collider.gameObject.tag);
             Debug.DrawLine(firePointPosition, hit.point, Color.red);
@@ -44,7 +45,7 @@ public class PlayerShootingController : MonoBehaviour {
         Vector2 mousePosition = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
         Vector2 firePointPosition = new Vector2(firePoint.position.x, firePoint.position.y);
         RaycastHit2D hit = Physics2D.Raycast(firePointPosition, mousePosition - firePointPosition, rayCastLength);
-        if (hit.collider != null && hit.collider.gameObject.tag == "ropeable")
+		if (hit.collider != null && (hit.collider.gameObject.tag == "ropeable"|| hit.collider.gameObject.tag == "Block"))
         {
             hitGameObject = hit.collider.gameObject;
             ropeHitPosition = new Vector2(hit.point.x, hit.point.y);
