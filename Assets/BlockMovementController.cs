@@ -5,7 +5,8 @@ public class BlockMovementController : MonoBehaviour {
 
     BlockManager BlockManagment;
 
-    public float moveTime = 3.0f;
+    float moveTime;
+    float moveBlockTimer;
 
     public bool leftSpace = true;
     public bool rightSpace = true;
@@ -22,6 +23,13 @@ public class BlockMovementController : MonoBehaviour {
     void Start()
     {
         BlockManagment = FindObjectOfType<BlockManager>();
+        moveTime = BlockManagment.CubeMoveTime;
+        moveBlockTimer = BlockManagment.ChooseCubeToMoveTime;
+    }
+
+    void FixedUpdate()
+    {
+
     }
 
     public void UpdateMoveable()
@@ -83,9 +91,6 @@ public class BlockMovementController : MonoBehaviour {
         moving = true;
         Vector2 startPos = this.transform.position;
         Vector2 endPos = startPos + direction;
-
-        //removes the block from the block manager so it dosent try to move it
-        BlockManagment.RemoveBlock(this.gameObject, startPos);
         
         float elapsedTime = 0.0f;
          
@@ -97,9 +102,6 @@ public class BlockMovementController : MonoBehaviour {
         }
         moving = false;
         UpdateMoveable();
-        
-        //adds the block to the block manager so it can move it
-        BlockManagment.AddBlock(this.gameObject, startPos);
 
         yield return null;
     }

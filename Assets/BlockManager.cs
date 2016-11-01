@@ -4,66 +4,65 @@ using System.Collections;
 public class BlockManager : MonoBehaviour {
 
     public GameObject StandartCube;
-    public int blocksToSpawn = 20;
 
-    static public int Width = 20;
-    static public int Height = 20;
+    public GameObject[] BlockPool;
+    public GameObject[] BlockPositions;
+
+    public float CubeSpawnTime = 0.5f;
+    public float CubeMoveTime = 1.5f;
+    public float ChooseCubeToMoveTime = 1.5f;
+
+    static public int Width = 10;
+    static public int Height = 10;
     
     // Use this for initialization
 
-    public GameObject[,] Block = new GameObject[Width, Height];
-
 	void Start () {
+
         StartCoroutine(SpawnCube());
         StartCoroutine(MoveACube());
-    }
 
-    public void AddBlock(GameObject AddBlock, Vector2 position)
-    {
-        Block[(int)position.x - (int)Camera.main.transform.position.x, (int)position.y - (int)Camera.main.transform.position.y] = AddBlock;
-    }
 
-    public void RemoveBlock(GameObject Removeblock, Vector2 position)
-    {
-        Block[(int)position.x - (int)Camera.main.transform.position.x, (int)position.y - (int)Camera.main.transform.position.y] = null;
     }
 
     private void CreateCube()
     {
-        int x = Random.Range(0, Width);
-        int y = Random.Range(0, Height);
+        int x = Random.Range(3, Width);
+        int y = Random.Range(3, Height);
 
-        if(Block[x,y] != null)
+        Vector3 fwd = Camera.main.transform.position - new Vector3(x, y, 0);
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, fwd, out hit))
         {
-            CreateCube();
-            return;
+            if(hit.transform.gameObject.tag == "Block")
+            {
+                CreateCube();
+                return;
+            }
+
+            // Do something with the object that was hit by the raycast.
         }
 
-        GameObject obj = (GameObject)Instantiate(StandartCube, new Vector3(x + (int)Camera.main.transform.position.x - (Width/2), y + (int)Camera.main.transform.position.y - (Height / 2), 0), Quaternion.identity);
-        obj.SetActive(true);
+        for (int i = 0; i<BlockPool.Length; i++)
+        {
+            if(BlockPool[i].activeSelf == false)
+            {
+                
+                BlockPool[i].transform.position = new Vector2(Camera.main.transform.position.x + x, Camera.main.transform.position.y + y);
+                BlockPool[i].SetActive(true);
+                return;
+            }
+        }
+
+        Debug.Log("Out of blocks to spawn");
     }
 
     IEnumerator SpawnCube()
     {
         CreateCube();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(CubeSpawnTime);
 
         StartCoroutine(SpawnCube());
         yield return null;
-    }
-
-    IEnumerator MoveACube()
-    {
-        yield return new WaitForSeconds(1.0f);
-        MoveRandomCube();
-        StartCoroutine(MoveACube());
-        yield return null;
-    }
-
-    private void MoveRandomCube()
-    {
-        int x = Random.Range(0, Width);
-        int y = Random.Range(0, Height);
-
     }
 }
