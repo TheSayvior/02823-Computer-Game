@@ -20,7 +20,6 @@ public class BlockManager : MonoBehaviour {
 	void Start () {
 
         StartCoroutine(SpawnCube());
-        StartCoroutine(MoveACube());
 
 
     }
