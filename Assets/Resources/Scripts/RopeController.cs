@@ -16,34 +16,32 @@ public class RopeController : MonoBehaviour {
         _rope = this.gameObject.GetComponent<HingeJoint2D>();
     }
 	
-	// Update is called once per frame
+	// Change so only causes bullet to fire and turns rope off after set time
 	void Update () {
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            FindRopeConnection();
-        }
-
-
-       // _rope.anchor
+		if (Input.GetMouseButtonDown (0)) {
+			FindRopeConnection ();
+  
+		}
 	}
 
     private void FindRopeConnection()
     {
+		//Allow shooting multiple ropes before one bullet makes a connection?
+		//Adjust so shooting is disabled on bullet hit
         if (_rope.isActiveAndEnabled == true)
         {
             _rope.enabled = false;
         }
-        else if (_rope.isActiveAndEnabled == false && ShootingController.publicShoot())
+		//move this control to the bullet script
+        else
         {
-            moveAnchor();
-            this.gameObject.transform.parent = ShootingController.hitGameObject.transform;
-            _rope.enabled = true;
+			ShootingController.publicShoot ();
         }
     }
 
-    private void moveAnchor()
+    /*private void moveAnchor()
     {
         _rope.gameObject.transform.position = ShootingController.ropeHitPosition;
-    }
+    }*/
 }
