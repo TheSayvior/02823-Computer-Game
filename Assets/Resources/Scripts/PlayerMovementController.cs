@@ -21,6 +21,7 @@ public class PlayerMovementController : MonoBehaviour {
         hasJumped = 0;
 		standupTime = 1;
 		_playerRB2D.freezeRotation = true;
+		this.transform.position = Vector3.zero;
     }
 	
 	// Update is called once per frame
