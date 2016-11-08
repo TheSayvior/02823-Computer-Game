@@ -3,9 +3,9 @@ using System.Collections;
 
 public class PlayerMovementController : MonoBehaviour {
 
-    public int speed;
-    public int jumpPower;
-    public int maxSpeed;
+    public float moveSpeed;
+    public float maxMoveSpeed;
+    public float jumpPower;
     public int numJumps;
     public int hasJumped;
 //    bool Swinging;
@@ -38,14 +38,14 @@ public class PlayerMovementController : MonoBehaviour {
 
         if (Input.GetKey("a"))
         {
-            if (_playerRB2D.velocity.x > -maxSpeed)
-                _playerRB2D.velocity = _playerRB2D.velocity + new Vector2(-speed, 0);
+            if (_playerRB2D.velocity.x > -maxMoveSpeed)
+                _playerRB2D.velocity = _playerRB2D.velocity + new Vector2(-moveSpeed, 0);
         }
 
         if (Input.GetKey("d"))
         {
-            if (_playerRB2D.velocity.x < maxSpeed)
-                _playerRB2D.velocity = _playerRB2D.velocity + new Vector2(speed, 0);
+            if (_playerRB2D.velocity.x < maxMoveSpeed)
+                _playerRB2D.velocity = _playerRB2D.velocity + new Vector2(moveSpeed, 0);
         }
 
         // Maybe add force, or figure out a way to get it more jumpy
