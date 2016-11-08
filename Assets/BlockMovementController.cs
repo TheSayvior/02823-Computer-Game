@@ -5,6 +5,8 @@ public class BlockMovementController : MonoBehaviour {
 
     BlockManager BlockManagment;
 
+    float time = 2.0f;
+    float timeElapsed = 0.0f;
     float moveTime;
     float moveBlockTimer;
 
@@ -23,13 +25,18 @@ public class BlockMovementController : MonoBehaviour {
     void Start()
     {
         BlockManagment = FindObjectOfType<BlockManager>();
-        moveTime = BlockManagment.CubeMoveTime;
-        moveBlockTimer = BlockManagment.ChooseCubeToMoveTime;
+        moveTime = BlockManagment.cubeMoveTime;
+        moveBlockTimer = BlockManagment.chooseCubeToMoveTime;
     }
 
     void FixedUpdate()
     {
-
+        timeElapsed += Time.deltaTime;
+        if(time < timeElapsed && moving == false)
+        {
+            MoveBlock();
+            timeElapsed = 0.0f;
+        }
     }
 
     public void UpdateMoveable()
@@ -71,7 +78,7 @@ public class BlockMovementController : MonoBehaviour {
         dirAmount = AmountOfMoveableDirections();
          
         //Choose direction
-        dir = (int)Random.Range(0, dirAmount - 1);
+        dir = (int)Random.Range(0, dirAmount);
 
         if(direction == Vector2.zero)
             direction = ChooseFreeSide(leftSpace, new Vector2(-1, 0));
@@ -88,20 +95,25 @@ public class BlockMovementController : MonoBehaviour {
     //moves the cube
     IEnumerator Move(Vector2 direction)
     {
-        moving = true;
-        Vector2 startPos = this.transform.position;
-        Vector2 endPos = startPos + direction;
-        
-        float elapsedTime = 0.0f;
-         
-        while (elapsedTime < moveTime)
+        int decision = Random.Range(0, 10);
+        if (decision < 3)
         {
-            transform.position = Vector3.Lerp(startPos, endPos, (elapsedTime / moveTime));
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            moving = true;
+            Vector2 startPos = new Vector3(Mathf.Round(this.transform.position.x), Mathf.Round(this.transform.position.y), Mathf.Round(this.transform.position.z));
+            Vector2 endPos = startPos + direction;
+
+            float elapsedTime = 0.0f;
+
+            while (elapsedTime < moveTime)
+            {
+                transform.position = Vector3.Lerp(startPos, endPos, (elapsedTime / moveTime));
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            transform.position = endPos;
+            moving = false;
+            UpdateMoveable();
         }
-        moving = false;
-        UpdateMoveable();
 
         yield return null;
     }
