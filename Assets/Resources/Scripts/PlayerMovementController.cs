@@ -8,28 +8,32 @@ public class PlayerMovementController : MonoBehaviour {
     public int maxSpeed;
     public int numJumps;
     public int hasJumped;
-    bool Swinging;
+//    bool Swinging;
 
     Rigidbody2D _playerRB2D;
+
+	public int standupTime;
 
 	// Use this for initialization
 	void Start () {
         _playerRB2D = this.gameObject.GetComponent<Rigidbody2D>();
-        Swinging = false;
+//        Swinging = false;
         hasJumped = 0;
+		standupTime = 1;
+		_playerRB2D.freezeRotation = true;
     }
 	
 	// Update is called once per frame
 	void Update () {
-	    // Check childcapsule collider. If trigger, then reset hasJumped to 0
+
 	}
 
     void FixedUpdate()
     {
-        if(Swinging == true)
-        {
-            return;
-        }
+//        if(Swinging == true)
+//        {
+//            return;
+//        }
 
         if (Input.GetKey("a"))
         {
@@ -60,4 +64,16 @@ public class PlayerMovementController : MonoBehaviour {
 			hasJumped = 0;
 		}
 	}
+
+	public IEnumerator standup(){
+		float elapsedTime = 0.0f;
+		Quaternion targetRotation = Quaternion.Euler (this.transform.eulerAngles.x, this.transform.eulerAngles.y, 0.0f);
+		while (elapsedTime < standupTime) {
+			this.transform.rotation = Quaternion.Lerp (this.transform.rotation, targetRotation, elapsedTime/standupTime);
+			elapsedTime += Time.deltaTime;
+			yield return null;
+		}
+		yield return null;
+	}
+		
 }

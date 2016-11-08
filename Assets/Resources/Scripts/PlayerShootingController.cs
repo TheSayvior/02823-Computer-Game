@@ -76,7 +76,7 @@ public class PlayerShootingController : MonoBehaviour {
 
 		Vector2 mousePosition = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
 
-		bullet.transform.position = this.transform.position;
+		bullet.transform.position = this.transform.FindChild("FirePoint").position;
 		bullet.SetActive(true);
 		Vector2 direction = mousePosition - new Vector2(this.transform.position.x, this.transform.position.y);
 
