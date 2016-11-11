@@ -18,6 +18,8 @@ public class BlockMovementController : MonoBehaviour {
     public bool movable = true;
     public bool moving = false;
 
+    public bool ropeAttached = false;
+
 
     int dirAmount;  //amount of movable directions
     int dir;        //random integer between 0 and amount of movable directions
@@ -106,8 +108,11 @@ public class BlockMovementController : MonoBehaviour {
 
             while (elapsedTime < moveTime)
             {
-                transform.position = Vector3.Lerp(startPos, endPos, (elapsedTime / moveTime));
-                elapsedTime += Time.deltaTime;
+                if (!ropeAttached)
+                {
+                    transform.position = Vector3.Lerp(startPos, endPos, (elapsedTime / moveTime));
+                    elapsedTime += Time.deltaTime;
+                }
                 yield return null;
             }
             transform.position = endPos;

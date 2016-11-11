@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: cbcabe7a4715d1743a43b35c911ba725
+timeCreated: 1478014295
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - hingePrefab: {fileID: 1000010764008164, guid: 124172d3531a4844b930749caa774958,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
