@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Ask before use scene/A Game Scene.unity
+- path: Assets/Test scenes/Peter/Scenes/Test Scene.unity
   isLoaded: 1
   isActive: 1
