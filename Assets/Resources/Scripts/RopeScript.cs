@@ -6,64 +6,46 @@ using System.Collections.Generic;
 public class RopeScript : MonoBehaviour
 {
     public bool killMeAtDestination;
-
-    public Vector2 destiny;
-
-    public float speed = 5f;
-
-
-    public float distance = 0.025f;
-
     public GameObject nodePrefab;
-
     public GameObject player;
-
     public GameObject lastNode;
-
+    public Vector2 destiny;
+    public float speed = 5f;
+    public float distance = 0.025f;
     bool done = false;
 
     private Vector2 origin;
+    private float maxRopeLength;
+    private Rigidbody2D connectedBlock;
 
     // Use this for initialization
     void Start()
     {
 
         player = GameObject.FindGameObjectWithTag("Player");
-
-        lastNode = transform.gameObject;
+        lastNode = this.transform.gameObject;
         origin = this.transform.position;
+        maxRopeLength = player.GetComponent<HookShotScript>().maxRopeLength;
+        connectedBlock = this.GetComponent<HingeJoint2D>().connectedBody;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Vector2.Distance(origin, this.transform.position) >= player.GetComponent<HookShotScript>().maxRopeLength  - 0.5f && killMeAtDestination)
+        if (Vector2.Distance(origin, this.transform.position) >= maxRopeLength - 0.5f && killMeAtDestination || Vector2.Distance(player.transform.position, destiny) > maxRopeLength + 1)
         {
             player.GetComponent<HookShotScript>().DestroyCurHook();
         }
 
+        this.transform.position = Vector2.MoveTowards(transform.position, destiny, (speed) * Time.deltaTime);
 
-        transform.position = Vector2.MoveTowards(transform.position, destiny, speed * Time.deltaTime);
-
-
-
-
-        if ((Vector2)transform.position != destiny)
+        if (!done && Vector2.Distance(player.transform.position, lastNode.transform.position) > distance)
         {
-
-            if (Vector2.Distance(player.transform.position, lastNode.transform.position) > distance)
-            {
-
-
-                CreateNode();
-
-            }
-
-
+            CreateNode();
         }
-        else if (done == false)
-        {
 
+        else if (done == false && (Vector2)this.transform.position == destiny)
+        {
             done = true;
             player.GetComponent<Rigidbody2D>().freezeRotation = false;
             lastNode.GetComponent<HingeJoint2D>().connectedBody = player.GetComponent<Rigidbody2D>();
@@ -85,14 +67,9 @@ public class RopeScript : MonoBehaviour
         pos2Create += (Vector2)lastNode.transform.position;
 
         GameObject go = (GameObject)Instantiate(nodePrefab, pos2Create, Quaternion.identity);
-
-
-        go.transform.SetParent(transform);
-
+        go.transform.SetParent(this.transform);
         lastNode.GetComponent<HingeJoint2D>().connectedBody = go.GetComponent<Rigidbody2D>();
-
         lastNode = go;
-
 
     }
 

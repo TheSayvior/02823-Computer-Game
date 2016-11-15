@@ -49,11 +49,13 @@ public class PlayerMovementController : MonoBehaviour {
         }
 
         // Maybe add force, or figure out a way to get it more jumpy
-        if (Input.GetKey("w"))
+        if (Input.GetKeyDown("w"))
         {
             // Do we want to limit y velocity? if they're moving up too fast they can't jump?
-            if (_playerRB2D.velocity.y < 5 && hasJumped != numJumps)
+            //if (_playerRB2D.velocity.y < 5 && hasJumped != numJumps)
+            if (hasJumped != numJumps)
             {
+                _playerRB2D.velocity = new Vector2(_playerRB2D.velocity.x, 0f);
                 _playerRB2D.velocity = _playerRB2D.velocity + new Vector2(0, jumpPower);
                 hasJumped += 1;
             }
