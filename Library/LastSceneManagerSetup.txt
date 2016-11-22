@@ -1,1 +1,4 @@
-sceneSetups: []
+sceneSetups:
+- path: Assets/Ask before use scene/A Game Scene.unity
+  isLoaded: 1
+  isActive: 1

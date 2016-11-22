@@ -55,6 +55,11 @@ public class PlayerMovementController : MonoBehaviour {
 //        {
 //            return;
 //        }
+		if (_playerRB2D.velocity.x == 0) {
+			_playAnim.animationSetBool ("isRunning", false);
+		} else {
+			_playAnim.animationSetBool ("isRunning", true);
+		}
 
         if (Input.GetKey("a"))
         {
@@ -62,7 +67,7 @@ public class PlayerMovementController : MonoBehaviour {
 			if (_playerRB2D.velocity.x > -maxMoveSpeed){
                 _playerRB2D.velocity = _playerRB2D.velocity + new Vector2(-moveSpeed, 0);
 				//handles animation
-				if (_playerRB2D.velocity.y == 0) {
+				if (_playerRB2D.velocity.y == 0 && !_playAnim.checkAnimation("PlayerJumpLand")) {
 					_playAnim.animationTriggerRun();
 				}
 			}
@@ -74,7 +79,7 @@ public class PlayerMovementController : MonoBehaviour {
 			if (_playerRB2D.velocity.x < maxMoveSpeed) {
 				_playerRB2D.velocity = _playerRB2D.velocity + new Vector2 (moveSpeed, 0);
 				//handles animation
-				if (_playerRB2D.velocity.y == 0) {
+				if (_playerRB2D.velocity.y == 0 && !_playAnim.checkAnimation("PlayerJumpLand")) {
 					_playAnim.animationTriggerRun();
 				}
 			}
