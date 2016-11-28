@@ -36,7 +36,6 @@ public class playerAnimationScript : MonoBehaviour {
 	public void animationTriggerIdle(){
 		playerAnimator.Play ("PlayerIdle");
 		fireAnimator.Play ("fireIdle");
-		print(fireAnimator.ToString ());
 	}
 
 	public void AnimationSetIsRunningTrue(){

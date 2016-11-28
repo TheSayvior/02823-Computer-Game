@@ -61,6 +61,12 @@ public class PlayerMovementController : MonoBehaviour {
 			_playAnim.animationSetBool ("isRunning", true);
 		}
 
+		if (_playerRB2D.velocity.y < 0) {
+			_playAnim.animationSetBool ("isFalling",true);
+		} else {
+			_playAnim.animationSetBool ("isFalling", false);
+		}
+
         if (Input.GetKey("a"))
         {
 			this.transform.localEulerAngles = new Vector3 (0, 0, 0);
