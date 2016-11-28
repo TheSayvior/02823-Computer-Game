@@ -3,11 +3,8 @@ using System.Collections;
 
 public class playerAnimationScript : MonoBehaviour {
 	public Animator playerAnimator;
+	public Animator fireAnimator;
 
-//	int runHash = Animator.StringToHash("startRunning");
-//	int jumpHash = Animator.StringToHash("jump");
-//	int landHash = Animator.StringToHash("land");
-//	int idleHash = Animator.StringToHash("idle");
 	int isRunningHash = Animator.StringToHash ("isRunning");
 
 	// Use this for initialization
@@ -21,26 +18,34 @@ public class playerAnimationScript : MonoBehaviour {
 
 	public void animationTriggerJump(){
 		playerAnimator.Play ("PlayerJump");
+		fireAnimator.Play("fireJump");
 	}
 
 	public void animationSetBool(string name, bool value){
 		playerAnimator.SetBool (name, value);
+		fireAnimator.SetBool (name, value);
 	}
 
 	public void animationTriggerRun(){
-		if(!(checkAnimation("PlayerRun") || checkAnimation("PlayerStartRunning")))
+		if(!(checkAnimation("PlayerRun") || checkAnimation("PlayerStartRunning"))){
 			playerAnimator.Play ("PlayerStartRunning");
+			fireAnimator.Play ("fireStartRunning");
+		}
 	}
 
 	public void animationTriggerIdle(){
 		playerAnimator.Play ("PlayerIdle");
+		fireAnimator.Play ("fireIdle");
+		print(fireAnimator.ToString ());
 	}
 
 	public void AnimationSetIsRunningTrue(){
 		playerAnimator.SetBool (isRunningHash, true);
+		fireAnimator.SetBool (isRunningHash, true);
 	}
 
 	public void AnimationSetIsRunningFalse(){
 		playerAnimator.SetBool (isRunningHash, false);
+		fireAnimator.SetBool (isRunningHash, false);
 	}
 }
