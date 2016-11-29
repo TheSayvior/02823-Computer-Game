@@ -14,6 +14,7 @@ public class PlayerMovementController : MonoBehaviour {
 
 	playerAnimationScript _playAnim;
 
+
 	public int standupTime;
 
 	// Use this for initialization
@@ -59,6 +60,18 @@ public class PlayerMovementController : MonoBehaviour {
 			_playAnim.animationSetBool ("isRunning", false);
 		} else {
 			_playAnim.animationSetBool ("isRunning", true);
+		}
+
+		if (this.GetComponent<HookShotScript> ().ropeActive) {
+			_playAnim.animationSetBool ("isRopeConnected", true);
+		} else {
+			_playAnim.animationSetBool ("isRopeConnected", false);
+		}
+
+		if (_playerRB2D.velocity.x > 0) {
+			_playAnim.animationSetBool ("isMovingForward",true);
+		} else {
+			_playAnim.animationSetBool ("isMovingForward", false);
 		}
 
 		if (_playerRB2D.velocity.y < 0) {

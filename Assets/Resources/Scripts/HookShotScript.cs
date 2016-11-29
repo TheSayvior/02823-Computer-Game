@@ -71,7 +71,7 @@ public class HookShotScript : MonoBehaviour
 
     private void ShootHook()
     {        
-        curHook = (GameObject)Instantiate(hook, transform.position, Quaternion.identity);
+		curHook = (GameObject)Instantiate(hook, transform.position, Quaternion.identity);
         curHook.GetComponent<RopeScript>().destiny = new Vector2(hitinfo.point.x, hitinfo.point.y);
         curHook.GetComponent<RopeScript>().killMeAtDestination = false;
 
