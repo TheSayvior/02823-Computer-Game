@@ -30,7 +30,7 @@ public class RopeScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (Vector2.Distance(origin, this.transform.position) >= maxRopeLength - 0.5f && killMeAtDestination || Vector2.Distance(player.transform.position, destiny) > maxRopeLength + 1)
         {
@@ -50,6 +50,7 @@ public class RopeScript : MonoBehaviour
             player.GetComponent<Rigidbody2D>().freezeRotation = false;
             lastNode.GetComponent<HingeJoint2D>().connectedBody = player.GetComponent<Rigidbody2D>();
             player.GetComponent<HookShotScript>().ropeActive = true;
+            player.GetComponent<PlayerMovementController>().hasJumped = player.GetComponent<PlayerMovementController>().numJumps - 1;
 
         }
 
