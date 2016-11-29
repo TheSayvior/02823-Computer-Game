@@ -27,7 +27,7 @@ public class playerAnimationScript : MonoBehaviour {
 	}
 
 	public void animationTriggerRun(){
-		if(!(checkAnimation("PlayerRun") || checkAnimation("PlayerStartRunning"))){
+		if((!(checkAnimation("PlayerRun") || checkAnimation("PlayerStartRunning"))) && !playerAnimator.GetBool("isRopeConnected")){
 			playerAnimator.Play ("PlayerStartRunning");
 			fireAnimator.Play ("fireStartRunning");
 		}

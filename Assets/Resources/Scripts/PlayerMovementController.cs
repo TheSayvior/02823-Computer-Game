@@ -75,7 +75,7 @@ public class PlayerMovementController : MonoBehaviour {
 //        {
 //            return;
 //        }
-		if (_playerRB2D.velocity.x == 0) {
+		if (_playerRB2D.velocity.x == 0 && this.GetComponent<HookShotScript> ().ropeActive) {
 			_playAnim.animationSetBool ("isRunning", false);
 		} else {
 			_playAnim.animationSetBool ("isRunning", true);
@@ -87,10 +87,18 @@ public class PlayerMovementController : MonoBehaviour {
 			_playAnim.animationSetBool ("isRopeConnected", false);
 		}
 
-		if (_playerRB2D.velocity.x > 0) {
-			_playAnim.animationSetBool ("isMovingForward",true);
+		if (_playerRB2D.transform.forward.x != 0) {
+			if (_playerRB2D.velocity.x > 0) {
+				_playAnim.animationSetBool ("isMovingForward", true);
+			} else {
+				_playAnim.animationSetBool ("isMovingForward", false);
+			}
 		} else {
-			_playAnim.animationSetBool ("isMovingForward", false);
+			if (_playerRB2D.velocity.x > 0) {
+				_playAnim.animationSetBool ("isMovingForward", false);
+			} else {
+				_playAnim.animationSetBool ("isMovingForward", true);
+			}
 		}
 
 		if (_playerRB2D.velocity.y < 0) {
