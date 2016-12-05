@@ -17,15 +17,19 @@ public class OilFlask : MonoBehaviour {
     
     void OnTriggerEnter2D(Collider2D obj)
     {
-        if(obj.tag == "Block")
+        /*if(obj.tag == "Block")
         {
             StartCoroutine(DeathByCube());
-        }
+        }*/
 
-        if (obj.tag == "Player" || obj.tag == "Block")
+        if (obj.tag == "Player")
         {
             //Add flask size value to player flame oil pool
-            Destroy(this.gameObject);
+            obj.GetComponent<PlayerStats>().ActivateFlask();
+
+            //removes the obj from the scene
+            this.gameObject.SetActive(false);
+            
         }
     }
 

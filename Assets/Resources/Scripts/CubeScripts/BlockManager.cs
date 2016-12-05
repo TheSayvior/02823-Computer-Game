@@ -3,7 +3,7 @@ using System.Collections;
 
 public class BlockManager : MonoBehaviour {
 
-
+    bool _startet;
 
     public GameObject StandartCube;
     public GameObject Pool;
@@ -27,6 +27,7 @@ public class BlockManager : MonoBehaviour {
     // Use this for initialization
 
     void Start () {
+        _startet = false;
         //Spawn the required amount of blocks in the pool
         for (int i = 0; i < blocksToSpawnInPool; i++)
         {
@@ -44,15 +45,24 @@ public class BlockManager : MonoBehaviour {
         //Spawn the first cube below the player.
         BlockPool[0].transform.position = new Vector2(Mathf.Round(Camera.main.transform.position.x), Mathf.Round(Camera.main.transform.position.y) - 1);
         BlockPool[0].SetActive(true);
-        //Start Spawning cubes randomly.
-        StartCoroutine(SpawnCube());
+
    }
+
+    void Update()
+    {
+        //Start Spawning cubes randomly.
+        if (!_startet)
+        {
+            StartCoroutine(SpawnCube());
+            _startet = true;
+        }
+    }
 
     private void CreateCube(int attempt)
     {
         if(attempt== 10) // if we try to many times just end the shit
         {
-            Debug.Log("Cant find available spot");
+            //Debug.Log("Cant find available spot");
             return;
         }
 
@@ -101,7 +111,7 @@ public class BlockManager : MonoBehaviour {
             }
         }
         //We are out of cubes if you're not dead then you should be
-        Debug.Log("Out of blocks to spawn");
+        //Debug.Log("Out of blocks to spawn");
     }
 
     IEnumerator SpawnCube()

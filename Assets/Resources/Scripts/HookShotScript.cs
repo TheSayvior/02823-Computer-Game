@@ -94,7 +94,7 @@ public class HookShotScript : MonoBehaviour
         {
             blockAnchor = hitinfo.collider.gameObject;
             blockAnchor.GetComponent<BlockMovementController>().ropeAttached = true;
-            Debug.Log("Hitcheck: " + hitinfo.collider.transform.position + " FakePos: " + shootDirection.normalized * 2);
+            //Debug.Log("Hitcheck: " + hitinfo.collider.transform.position + " FakePos: " + shootDirection.normalized * 2);
             return true;
         }
         return false;

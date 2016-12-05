@@ -68,6 +68,23 @@ public class RopeScript : MonoBehaviour
         pos2Create += (Vector2)lastNode.transform.position;
 
         GameObject go = (GameObject)Instantiate(nodePrefab, pos2Create, Quaternion.identity);
+
+        //rotates the object such that robe sprite is correctly positioned.
+        Vector3 heading = lastNode.transform.position - go.transform.position;
+        float RopeRotation;
+        if (heading.y >= 0)
+        {
+            RopeRotation = Mathf.Asin(1 / Vector3.Distance(lastNode.transform.position, go.transform.position) * heading.x) * Mathf.Rad2Deg;
+            go.transform.Rotate(Vector3.forward, -RopeRotation);
+        }
+        else
+        {
+            RopeRotation = Mathf.Asin(1 / Vector3.Distance(lastNode.transform.position, go.transform.position) * -heading.x) * Mathf.Rad2Deg;
+            go.transform.Rotate(Vector3.forward, 180-RopeRotation);
+        }
+
+
+
         go.transform.SetParent(this.transform);
         lastNode.GetComponent<HingeJoint2D>().connectedBody = go.GetComponent<Rigidbody2D>();
         lastNode = go;
