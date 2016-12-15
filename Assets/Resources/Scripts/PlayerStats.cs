@@ -15,6 +15,8 @@ public class PlayerStats : MonoBehaviour {
 
     public Text LevelDisplay;
     public GameObject GameWonScreen;
+    public SoundManaging SoundManager;
+    public GameObject headFireAnimation;
 
     bool _flaskEffect;
     float _aimHealth;
@@ -24,6 +26,7 @@ public class PlayerStats : MonoBehaviour {
     void Start () {
         RedInitRange = RedLight.range;
         YellowInitRange = YellowLight.range;
+        headFireAnimation.SetActive(true);
     }
 	
 	// Update is called once per frame
@@ -58,6 +61,7 @@ public class PlayerStats : MonoBehaviour {
     {
         RedLight.range = RedInitRange * health / 100;
         YellowLight.range = YellowInitRange * health / 100;
+        SoundManager.FlameSoundUpdate(health / 100);
     }
 
     public void ActivateFlask()
@@ -81,6 +85,7 @@ public class PlayerStats : MonoBehaviour {
 
     IEnumerator GameOver()
     {
+        headFireAnimation.SetActive(false);
         yield return new WaitForSeconds(5); // or however long you want it to wait
         UnityEngine.SceneManagement.SceneManager.LoadScene(Application.loadedLevel);
     }

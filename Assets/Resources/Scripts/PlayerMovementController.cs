@@ -8,7 +8,9 @@ public class PlayerMovementController : MonoBehaviour {
     public float jumpPower;
     public int numJumps;
     public int hasJumped;
-//    bool Swinging;
+    //    bool Swinging;
+
+    public StepBehavior StepSoundLogic;
 
     Rigidbody2D _playerRB2D;
 
@@ -134,15 +136,24 @@ public class PlayerMovementController : MonoBehaviour {
         
     }
 
-	void OnTriggerEnter2D(Collider2D touched){
+	void OnTriggerStay2D(Collider2D touched){
 		if (touched.tag == "Block") {
 			hasJumped = 0;
 			//handles animation
 			_playAnim.animationSetBool("Landed", true);
-		}
+            StepSoundLogic.PlayStepSounds = true;
+        }
 	}
 
-	public IEnumerator standup(){
+    void OnTriggerExit2D(Collider2D touched)
+    {
+        if (touched.tag == "Block")
+        {
+            StepSoundLogic.PlayStepSounds = false;
+        }
+    }
+
+    public IEnumerator standup(){
 		float elapsedTime = 0.0f;
 		Quaternion targetRotation = Quaternion.Euler (this.transform.eulerAngles.x, this.transform.eulerAngles.y, 0.0f);
 		while (elapsedTime < standupTime) {
